@@ -9,13 +9,31 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
     alias(libs.plugins.serialization)
+
+    alias(libs.plugins.kotlinCocoapods)
 }
+
+version = "1.0"
+val productName = "PodiumStreamer"
 
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
+
+    cocoapods {
+        summary = "PodiumStreamer"
+        homepage = "https://github.com/noemibalazs/PodiumStreamer"
+        podfile = project.file("../iosApp/Podfile")
+
+        framework {
+            baseName = "composeApp"
+            isStatic = true
+            binaryOption("bundleId", "com.noemi.podium.streamer.composeApp.PodiumStreamer")
+            binaryOption("bundleVersion", "1")
         }
     }
     
@@ -127,8 +145,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {

@@ -1,4 +1,3 @@
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,6 +15,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Scaffold
@@ -27,6 +28,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SnackbarDuration
@@ -45,6 +47,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -53,6 +56,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.Lifecycle
@@ -66,17 +70,17 @@ import com.multiplatform.webview.web.rememberWebViewState
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-import kotlinproject.composeapp.generated.resources.Res
-import kotlinproject.composeapp.generated.resources.label_icon_content_description
-import kotlinproject.composeapp.generated.resources.label_lazy_column_tag
-import kotlinproject.composeapp.generated.resources.label_no_internet_connection
-import kotlinproject.composeapp.generated.resources.label_podium_streamer
-import kotlinproject.composeapp.generated.resources.label_progress_indicator_tag
-import kotlinproject.composeapp.generated.resources.label_search_hint
-import kotlinproject.composeapp.generated.resources.label_search_text_tag
-import kotlinproject.composeapp.generated.resources.label_timeline
-import kotlinproject.composeapp.generated.resources.label_user_avatar
-import kotlinproject.composeapp.generated.resources.logo
+import podiumstreamer.composeapp.generated.resources.Res
+import podiumstreamer.composeapp.generated.resources.label_icon_content_description
+import podiumstreamer.composeapp.generated.resources.label_lazy_column_tag
+import podiumstreamer.composeapp.generated.resources.label_no_internet_connection
+import podiumstreamer.composeapp.generated.resources.label_podium_streamer
+import podiumstreamer.composeapp.generated.resources.label_progress_indicator_tag
+import podiumstreamer.composeapp.generated.resources.label_search_hint
+import podiumstreamer.composeapp.generated.resources.label_search_text_tag
+import podiumstreamer.composeapp.generated.resources.label_timeline
+import podiumstreamer.composeapp.generated.resources.label_user_avatar
+import podiumstreamer.composeapp.generated.resources.logo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -116,7 +120,7 @@ fun App() {
                 },
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xff007acc))
+                    .background(MaterialTheme.colorScheme.primary)
                     .windowInsetsPadding(WindowInsets.safeDrawing)
             ) {
                 StreamerScreen(snackBarHostState = snackbarHostState, modifier = modifier)
@@ -142,12 +146,12 @@ private fun StreamerAppBar(title: String, contentDescription: String, modifier: 
             Image(
                 painter = painterResource(Res.drawable.logo),
                 contentDescription = contentDescription,
-                modifier = modifier.size(32.dp).padding(start = 8.dp)
+                modifier = modifier.size(32.dp).padding(start = 12.dp)
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = androidx.compose.material3.MaterialTheme.colorScheme.primary,
-            titleContentColor = androidx.compose.material3.MaterialTheme.colorScheme.onPrimary
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary
         )
     )
 }
@@ -256,7 +260,7 @@ private fun SearchTextField(
                 fontFamily = PhilosopherFontFamily(),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color = androidx.compose.material3.MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary
             )
         },
         placeholder = {
@@ -284,9 +288,9 @@ private fun SearchTextField(
             }
         }),
         colors = OutlinedTextFieldDefaults.colors(
-            cursorColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant,
-            focusedBorderColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant,
-            unfocusedBorderColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant
+            cursorColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            focusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            unfocusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant
         ),
         trailingIcon = {
             Icon(
@@ -320,7 +324,7 @@ private fun ScreenContent(payloads: List<PayloadData>, isLoading: Boolean, isAct
                             linkTo(parent.start, parent.end)
                         }
                         .testTag(stringResource(Res.string.label_progress_indicator_tag)),
-                    color = androidx.compose.material3.MaterialTheme.colorScheme.onPrimaryContainer,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     strokeWidth = 3.dp
                 )
 
@@ -365,9 +369,10 @@ private fun StreamerItemRow(payload: PayloadData, isActiveNetwork: Boolean, snac
 
     val scope = rememberCoroutineScope()
     val message = stringResource(Res.string.label_no_internet_connection)
-    var stateValue by remember { mutableStateOf(false) }
-    val changeState: (Boolean) -> Unit = { changed ->
-        stateValue = changed
+
+    var isWebViewDialogOpen by remember { mutableStateOf(false) }
+    val onDismiss: (Boolean) -> Unit = { changed ->
+        isWebViewDialogOpen = changed
     }
 
     Row(
@@ -380,14 +385,14 @@ private fun StreamerItemRow(payload: PayloadData, isActiveNetwork: Boolean, snac
                 defaultElevation = 8.dp
             ),
             colors = CardDefaults.cardColors(
-                containerColor = androidx.compose.material3.MaterialTheme.colorScheme.surfaceVariant
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
             ),
-            shape = androidx.compose.material3.MaterialTheme.shapes.large,
+            shape = MaterialTheme.shapes.large,
             modifier = modifier
                 .padding(8.dp)
                 .clickable {
                     when (isActiveNetwork) {
-                        true -> stateValue = true
+                        true -> isWebViewDialogOpen = true
                         else -> ShowSnackBar(snackBarHostState = snackBarHostState, message = message, scope = scope)
                     }
                 }
@@ -409,9 +414,11 @@ private fun StreamerItemRow(payload: PayloadData, isActiveNetwork: Boolean, snac
                         text = payload.account.username,
                         modifier = modifier
                             .fillMaxWidth()
-                            .padding(top = 8.dp, end = 8.dp, start = 8.dp),
+                            .padding(top = 8.dp, end = 8.dp, start = 8.dp).align(Alignment.CenterVertically),
                         textAlign = TextAlign.Justify,
-                        style = PhilosopherTypography().bodyLarge
+                        style = PhilosopherTypography().headlineMedium,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.SemiBold
                     )
                 }
 
@@ -421,7 +428,10 @@ private fun StreamerItemRow(payload: PayloadData, isActiveNetwork: Boolean, snac
                         .fillMaxWidth()
                         .padding(start = 6.dp, end = 6.dp, top = 4.dp, bottom = 6.dp),
                     textAlign = TextAlign.Justify,
-                    style = PhilosopherTypography().bodyMedium
+                    style = PhilosopherTypography().bodyMedium,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = PhilosopherFontFamily()
                 )
 
                 Text(
@@ -430,25 +440,47 @@ private fun StreamerItemRow(payload: PayloadData, isActiveNetwork: Boolean, snac
                         .fillMaxWidth()
                         .padding(8.dp),
                     textAlign = TextAlign.End,
-                    style = PhilosopherTypography().bodySmall
+                    style = PhilosopherTypography().bodyMedium,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold
                 )
             }
         }
     }
 
-    if (stateValue) {
-       // StreamerWebView(url = payload.url, onDisposeState = changeState, modifier = modifier)
+    if (isWebViewDialogOpen) {
+        StreamerLinkDialog(url = payload.url, onDismissRequest = onDismiss)
     }
 }
 
 @Composable
-private fun StreamerWebView(url: String, onDisposeState: (Boolean) -> Unit, modifier: Modifier = Modifier) {
+private fun StreamerLinkDialog(url: String, onDismissRequest: (Boolean) -> Unit, modifier: Modifier = Modifier) {
+    Dialog(onDismissRequest = { onDismissRequest.invoke(false) }) {
+
+        Card(
+            modifier = modifier
+                .background(
+                    shape = RoundedCornerShape(corner = CornerSize(8.dp)),
+                    color = MaterialTheme.colorScheme.surfaceVariant
+                )
+        ) {
+            Column(
+                horizontalAlignment = Alignment.Start
+            ) {
+
+                StreamerWebView(url = url)
+            }
+        }
+    }
+}
+
+@Composable
+private fun StreamerWebView(url: String) {
     val webViewState = rememberWebViewState(url)
 
     WebView(
         state = webViewState,
-        modifier = Modifier.fillMaxSize(),
-        onDispose = { onDisposeState.invoke(false) }
+        modifier = Modifier.fillMaxSize()
     )
 }
 

@@ -5,10 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontStyle
-import kotlinproject.composeapp.generated.resources.Res
-import kotlinproject.composeapp.generated.resources.philosopher_bold
-import kotlinproject.composeapp.generated.resources.philosopher_italic
-import kotlinproject.composeapp.generated.resources.philosopher_regular
+import podiumstreamer.composeapp.generated.resources.Res
+import podiumstreamer.composeapp.generated.resources.philosopher_bold
+import podiumstreamer.composeapp.generated.resources.philosopher_italic
+import podiumstreamer.composeapp.generated.resources.philosopher_regular
 import org.jetbrains.compose.resources.Font
 
 @Composable
