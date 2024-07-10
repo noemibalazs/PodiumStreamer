@@ -5,11 +5,11 @@ Pod::Spec.new do |spec|
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'PodiumStreamer'
+    spec.summary                  = 'PodiumStreamer Kotlin/Native module'
     spec.vendored_frameworks      = 'build/cocoapods/framework/composeApp.framework'
     spec.libraries                = 'c++'
-                
-                
+    spec.ios.deployment_target    = '15.0'
+    spec.dependency 'Reachability', '~> 3.2'
                 
     if !Dir.exist?('build/cocoapods/framework/composeApp.framework') || Dir.empty?('build/cocoapods/framework/composeApp.framework')
         raise "

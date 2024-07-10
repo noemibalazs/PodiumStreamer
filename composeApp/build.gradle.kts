@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin
+import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -15,41 +17,52 @@ plugins {
 
 version = "1.0"
 val productName = "PodiumStreamer"
+val productNameSpace = "com.noemi.podium.streamer"
 
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
+            jvmTarget.set(JvmTarget.JVM_22)
         }
     }
 
+    iosX64 {
+        binaries.framework {
+            baseName = "composeApp"
+            binaryOption("bundleId", "composeApp")
+        }
+    }
+    iosArm64 {
+        binaries.framework {
+            baseName = "composeApp"
+            binaryOption("bundleId", "composeApp")
+        }
+    }
+    iosSimulatorArm64 {
+        binaries.framework {
+            baseName = "composeApp"
+            binaryOption("bundleId", "composeApp")
+        }
+    }
+
+    applyDefaultHierarchyTemplate()
+
     cocoapods {
-        summary = "PodiumStreamer"
+        summary = "PodiumStreamer Kotlin/Native module"
         homepage = "https://github.com/noemibalazs/PodiumStreamer"
         podfile = project.file("../iosApp/Podfile")
 
-        framework {
-            baseName = "composeApp"
-            isStatic = true
-            binaryOption("bundleId", "com.noemi.podium.streamer.composeApp.PodiumStreamer")
-            binaryOption("bundleVersion", "1")
-        }
+        ios.deploymentTarget = "15.0"
+
+        pod("Reachability", "~> 3.2")
+
+        xcodeConfigurationToNativeBuildType["CUSTOM_DEBUG"] = NativeBuildType.DEBUG
+        xcodeConfigurationToNativeBuildType["CUSTOM_RELEASE"] = NativeBuildType.RELEASE
     }
-    
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
-        }
-    }
-    
+
     sourceSets {
-        
+
         androidMain.dependencies {
 
             implementation(libs.compose.ui.tooling)
@@ -145,8 +158,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_22
+        targetCompatibility = JavaVersion.VERSION_22
     }
 
     buildFeatures {
@@ -158,7 +171,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.12"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
 }
 

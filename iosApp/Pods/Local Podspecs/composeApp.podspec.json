@@ -7,9 +7,17 @@
   },
   "authors": "",
   "license": "",
-  "summary": "PodiumStreamer",
+  "summary": "PodiumStreamer Kotlin/Native module",
   "vendored_frameworks": "build/cocoapods/framework/composeApp.framework",
   "libraries": "c++",
+  "platforms": {
+    "ios": "15.0"
+  },
+  "dependencies": {
+    "Reachability": [
+      "~> 3.2"
+    ]
+  },
   "xcconfig": {
     "ENABLE_USER_SCRIPT_SANDBOXING": "NO"
   },
@@ -27,12 +35,5 @@
   ],
   "resources": [
     "build/compose/cocoapods/compose-resources"
-  ],
-  "platforms": {
-    "osx": null,
-    "ios": null,
-    "tvos": null,
-    "visionos": null,
-    "watchos": null
-  }
+  ]
 }

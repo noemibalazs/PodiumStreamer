@@ -1,16 +1,23 @@
 PODS:
-  - composeApp (1.0)
+  - composeApp (1.0):
+    - Reachability (~> 3.2)
+  - Reachability (3.7.6)
 
 DEPENDENCIES:
   - composeApp (from `../composeApp/`)
+
+SPEC REPOS:
+  trunk:
+    - Reachability
 
 EXTERNAL SOURCES:
   composeApp:
     :path: "../composeApp/"
 
 SPEC CHECKSUMS:
-  composeApp: c37d2e4cbeac4cb371c391ab7fcd23a11f3cdfcf
+  composeApp: 066cc4f6f0900d8703419ee91e12fde4858f9141
+  Reachability: fd0ecd23705e2599e4cceeb943222ae02296cbc6
 
-PODFILE CHECKSUM: 27696952d1557aea5e763f628142833163261db5
+PODFILE CHECKSUM: c01b58a9fb334eeb29731263acecfc2ea79b4421
 
 COCOAPODS: 1.15.2
