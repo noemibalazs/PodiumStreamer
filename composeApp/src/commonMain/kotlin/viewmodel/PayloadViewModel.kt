@@ -55,7 +55,10 @@ class PayloadViewModel(
     fun monitorNetworkState(scope: CoroutineScope) {
         konnectivity.networkState
             .onEach { networkState ->
-                onNetworkStateChanged(networkState != NetworkState.Unreachable).also {
+                when (networkState) {
+                    NetworkState.Unreachable -> onNetworkStateChanged(false)
+                    else -> onNetworkStateChanged(true)
+                }.also {
                     println("Network state is active: $networkState")
                 }
             }.launchIn(scope)

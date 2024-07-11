@@ -47,7 +47,6 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -90,7 +89,6 @@ import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.mp.KoinPlatform.getKoin
 import theme.PhilosopherFontFamily
-import theme.PhilosopherTypography
 import theme.StreamerTheme
 import viewmodel.PayloadViewModel
 
@@ -170,13 +168,10 @@ private fun StreamerScreen(snackBarHostState: SnackbarHostState, modifier: Modif
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(true) {
-        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            launch {
-                viewModel.publishPayloads()
-            }
-
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
             launch {
                 viewModel.monitorNetworkState(scope)
+                viewModel.publishPayloads()
             }
         }
     }
@@ -212,7 +207,7 @@ private fun StreamerScreen(snackBarHostState: SnackbarHostState, modifier: Modif
                 stateValue = true
             }
 
-            if (stateValue) viewModel.reFetchPublicTimelines()
+            if (stateValue && networkState) viewModel.reFetchPublicTimelines()
         }
     }
 }
@@ -257,7 +252,7 @@ private fun SearchTextField(
         label = {
             Text(
                 text = stringResource(Res.string.label_timeline),
-                fontFamily = PhilosopherFontFamily(),
+                style = MaterialTheme.typography.bodyMedium,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
@@ -266,7 +261,7 @@ private fun SearchTextField(
         placeholder = {
             Text(
                 text = stringResource(Res.string.label_search_hint),
-                fontFamily = PhilosopherFontFamily(),
+                style = MaterialTheme.typography.titleMedium,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Color.Black
@@ -281,10 +276,9 @@ private fun SearchTextField(
         ),
         keyboardActions = KeyboardActions(onDone = {
             keyboardController?.hide()
-            onGetPublicTimelines(searchTerm)
             when (isActiveNetwork) {
                 true -> onGetPublicTimelines(searchTerm)
-                else -> ShowSnackBar(snackBarHostState = snackBarHostState, message = message, scope = scope)
+                else -> showSnackBar(snackBarHostState = snackBarHostState, message = message, scope = scope)
             }
         }),
         colors = OutlinedTextFieldDefaults.colors(
@@ -393,7 +387,7 @@ private fun StreamerItemRow(payload: PayloadData, isActiveNetwork: Boolean, snac
                 .clickable {
                     when (isActiveNetwork) {
                         true -> isWebViewDialogOpen = true
-                        else -> ShowSnackBar(snackBarHostState = snackBarHostState, message = message, scope = scope)
+                        else -> showSnackBar(snackBarHostState = snackBarHostState, message = message, scope = scope)
                     }
                 }
         ) {
@@ -416,7 +410,7 @@ private fun StreamerItemRow(payload: PayloadData, isActiveNetwork: Boolean, snac
                             .fillMaxWidth()
                             .padding(top = 8.dp, end = 8.dp, start = 8.dp).align(Alignment.CenterVertically),
                         textAlign = TextAlign.Justify,
-                        style = PhilosopherTypography().headlineMedium,
+                        style = MaterialTheme.typography.headlineMedium,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -426,12 +420,12 @@ private fun StreamerItemRow(payload: PayloadData, isActiveNetwork: Boolean, snac
                     text = Ksoup.parse(payload.content).text(),
                     modifier = modifier
                         .fillMaxWidth()
-                        .padding(start = 6.dp, end = 6.dp, top = 4.dp, bottom = 6.dp),
+                        .padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
                     textAlign = TextAlign.Justify,
-                    style = PhilosopherTypography().bodyMedium,
+                    style = MaterialTheme.typography.bodyMedium,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
-                    fontFamily = PhilosopherFontFamily()
+                    fontStyle = FontStyle.Normal
                 )
 
                 Text(
@@ -440,9 +434,10 @@ private fun StreamerItemRow(payload: PayloadData, isActiveNetwork: Boolean, snac
                         .fillMaxWidth()
                         .padding(8.dp),
                     textAlign = TextAlign.End,
-                    style = PhilosopherTypography().bodyMedium,
+                    style = MaterialTheme.typography.bodyMedium,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    fontStyle = FontStyle.Italic
                 )
             }
         }
@@ -484,7 +479,7 @@ private fun StreamerWebView(url: String) {
     )
 }
 
-private fun ShowSnackBar(snackBarHostState: SnackbarHostState, message: String, scope: CoroutineScope) {
+private fun showSnackBar(snackBarHostState: SnackbarHostState, message: String, scope: CoroutineScope) {
     scope.launch {
         snackBarHostState.showSnackbar(
             duration = SnackbarDuration.Short,
