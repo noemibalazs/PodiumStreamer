@@ -23,3 +23,9 @@ Libraries:
 6. Ktor 
 7. MVVM architecture 
 8. Material Design 3
+
+Screenshots:
+![1](https://github.com/user-attachments/assets/193d8ac5-dfae-4177-9a28-f437a1a2dd73)
+![2](https://github.com/user-attachments/assets/5f0a1965-2659-4460-aa3a-4e95a1a50af1)
+![3](https://github.com/user-attachments/assets/ebb95238-ce87-49fc-a3f6-705ee4eb91c5)
+![4](https://github.com/user-attachments/assets/69edb3f3-255a-4dbd-9744-522f4c606e02)
