@@ -1,14 +1,25 @@
 This is a Kotlin Multiplatform project targeting Android, iOS.
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+First steps:
 
-* `/iosApp` contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform, 
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+1. Use or got your personal Mastodon access token
+2. Add your personal access token to the util / Utils / ACCESS_TOKEN
 
+Idea:
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+1. Use Ktor to handle the Server-Sent Events based on a searched term
+2. Storing all events in local data base using Room
+3. Use Koin for dependency injection
+4. Monitoring the network connection to prevent the local data base to be cleared
+5. Clicking on an event will display the event details inside of a dialog
+
+Libraries:
+
+1. Koin DI 
+2. Jetpack Compose 
+3. Coroutines 
+4. Flow 
+5. Room 
+6. Ktor 
+7. MVVM architecture 
+8. Material Design 3
