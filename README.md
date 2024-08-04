@@ -3,15 +3,17 @@ This is a Kotlin Multiplatform project targeting Android, iOS.
 First steps:
 
 1. Use or got your personal Mastodon access token
-2. Add your personal access token to the util / Utils / ACCESS_TOKEN
+2. Add your personal access token to locale.properties file
 
 Idea:
 
 1. Use Ktor to handle the Server-Sent Events based on a searched term
-2. Storing all events in local data base using Room
+2. Stors all events in local data base using Room
 3. Use Koin for dependency injection
-4. Monitoring the network connection to prevent the local data base to be cleared
-5. Clicking on an event will display the event details inside of a dialog
+4. Monitors the network connection to prevent the local data base to be cleared
+5. Use navigation for displaying the stream and favorite screens
+6. Clicking on an event inside of the stream screen will add it to favorite data base
+7. Clicking on an event inside of the favorite screen will display the event details
 
 Libraries:
 
@@ -20,12 +22,18 @@ Libraries:
 3. Coroutines 
 4. Flow 
 5. Room 
-6. Ktor 
-7. MVVM architecture 
-8. Material Design 3
+6. Ktor
+7. Navigation
+8. Codefeline
+9. MVVM architecture 
+10. Material Design 3
 
 Screenshots:
-![1](https://github.com/user-attachments/assets/193d8ac5-dfae-4177-9a28-f437a1a2dd73)
-![2](https://github.com/user-attachments/assets/5f0a1965-2659-4460-aa3a-4e95a1a50af1)
-![3](https://github.com/user-attachments/assets/ebb95238-ce87-49fc-a3f6-705ee4eb91c5)
-![4](https://github.com/user-attachments/assets/69edb3f3-255a-4dbd-9744-522f4c606e02)
+![nadroid](https://github.com/user-attachments/assets/08fca06c-6d79-4597-82bb-e5a767b764a3)
+
+![android2](https://github.com/user-attachments/assets/267d8639-5059-4b80-bc6f-d18d844a9594)
+
+![iOS ](https://github.com/user-attachments/assets/a325bba0-f1cc-483a-bd05-910bf8552881)
+
+![iOS2](https://github.com/user-attachments/assets/b0cac22c-30ab-4fda-8306-edddfc7db775)
+
