@@ -8,7 +8,7 @@ First steps:
 Idea:
 
 1. Use Ktor to handle the Server-Sent Events based on a searched term
-2. Stors all events in local data base using Room
+2. Store all events in local data base using Room
 3. Use Koin for dependency injection
 4. Monitors the network connection to prevent the local data base to be cleared
 5. Use navigation for displaying the stream and favorite screens
