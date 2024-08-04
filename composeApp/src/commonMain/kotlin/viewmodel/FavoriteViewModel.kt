@@ -15,10 +15,10 @@ import repository.PayloadRepository
 class FavoriteViewModel(
     konnectivity: Konnectivity,
     private val repository: PayloadRepository,
-) : BaseViewModel(konnectivity) {
+) : BaseViewModel<FavoriteStream>(konnectivity) {
 
     private var _payloadsState = MutableStateFlow(emptyList<FavoriteStream>())
-    val payloadState: StateFlow<List<FavoriteStream>> = _payloadsState.asStateFlow()
+    override val payloadsState: StateFlow<List<FavoriteStream>> = _payloadsState.asStateFlow()
 
     private var _loadingState = MutableStateFlow(false)
     override val loadingState = _loadingState.asStateFlow()

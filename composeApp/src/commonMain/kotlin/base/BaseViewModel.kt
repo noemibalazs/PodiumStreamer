@@ -12,11 +12,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel(private val konnectivity: Konnectivity) : ViewModel() {
+abstract class BaseViewModel<T>(private val konnectivity: Konnectivity) : ViewModel() {
 
     private var _networkState = MutableStateFlow(false)
     val networkState: StateFlow<Boolean> = _networkState.asStateFlow()
 
+    abstract val payloadsState: StateFlow<List<T>>
     abstract val loadingState: StateFlow<Boolean>
     abstract val errorState: StateFlow<String>
 

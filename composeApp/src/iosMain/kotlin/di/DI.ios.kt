@@ -1,5 +1,6 @@
 package di
 
+import com.noemi.podium.streamer.BuildKonfig.MASTODON_TOKEN
 import database.PodiumDatabase
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.darwin.Darwin
@@ -17,7 +18,6 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import room.getDatabase
 import util.BASE_URL
-import util.TOKEN
 
 actual fun platformModule(): Module = module {
     single<PodiumDatabase> { getDatabase() }
@@ -50,7 +50,7 @@ actual fun ktorModule(): Module = module {
             defaultRequest {
                 header(HttpHeaders.Accept, "text/event-stream")
                 header(HttpHeaders.Accept, "application/json")
-                header(HttpHeaders.Authorization, TOKEN)
+                header(HttpHeaders.Authorization, "Bearer $MASTODON_TOKEN")
                 header(HttpHeaders.CacheControl, "no-cache")
                 header(HttpHeaders.CacheControl, "keep-alive")
                 url(BASE_URL)

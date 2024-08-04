@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import base.BaseViewModel
 import com.mirego.konnectivity.Konnectivity
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
@@ -19,13 +20,13 @@ import repository.PayloadRepository
 import util.toFavoriteStream
 
 class StreamerViewModel(
+    konnectivity: Konnectivity,
     private val ktorDataSource: KTorDataSource,
-    private val repository: PayloadRepository,
-    konnectivity: Konnectivity
-) : BaseViewModel(konnectivity) {
+    private val repository: PayloadRepository
+) : BaseViewModel<PayloadData>(konnectivity) {
 
     private var _payloadsState = MutableStateFlow(emptyList<PayloadData>())
-    val payloadsState = _payloadsState.asStateFlow()
+    override val payloadsState: StateFlow<List<PayloadData>> = _payloadsState.asStateFlow()
 
     private var _loadingState = MutableStateFlow(false)
     override val loadingState = _loadingState.asStateFlow()

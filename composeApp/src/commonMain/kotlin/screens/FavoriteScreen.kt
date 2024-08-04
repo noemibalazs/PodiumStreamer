@@ -56,7 +56,7 @@ fun FavoriteScreen(snackBarHostState: SnackbarHostState, modifier: Modifier = Mo
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
     val viewModel: FavoriteViewModel = viewModel { getKoin().get() }
 
-    val payloadState by viewModel.payloadState.collectAsStateWithLifecycle()
+    val payloadState by viewModel.payloadsState.collectAsStateWithLifecycle()
     val loadingState by viewModel.loadingState.collectAsStateWithLifecycle()
     val errorMessageState by viewModel.errorState.collectAsStateWithLifecycle()
     val networkState by viewModel.networkState.collectAsStateWithLifecycle()

@@ -1,6 +1,8 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -11,6 +13,7 @@ plugins {
     alias(libs.plugins.room)
     alias(libs.plugins.serialization)
     alias(libs.plugins.kotlinCocoapods)
+    alias(libs.plugins.codeFelineBuildConfig)
 }
 
 version = "1.0"
@@ -189,3 +192,16 @@ tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().configureEach
     }
 }
 
+buildkonfig {
+    packageName = "com.noemi.podium.streamer"
+
+    defaultConfigs {
+        val token: String = gradleLocalProperties(rootDir, providers).getProperty("MASTODON_TOKEN")
+
+        require(token.isNotEmpty()) {
+            "Register your access token in local.properties as `MASTODON_TOKEN`"
+        }
+
+        buildConfigField(FieldSpec.Type.STRING, "MASTODON_TOKEN", token)
+    }
+}

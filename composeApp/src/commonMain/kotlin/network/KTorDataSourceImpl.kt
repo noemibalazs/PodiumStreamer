@@ -1,5 +1,6 @@
 package network
 
+import com.noemi.podium.streamer.BuildKonfig.MASTODON_TOKEN
 import io.ktor.client.HttpClient
 import io.ktor.client.request.prepareGet
 import io.ktor.client.statement.HttpResponse
@@ -22,7 +23,6 @@ import model.EventType
 import model.PayloadData
 import model.toEventType
 import util.BASE_URL
-import util.TOKEN
 
 class KTorDataSourceImpl(
     private val httpClient: HttpClient,
@@ -56,7 +56,7 @@ class KTorDataSourceImpl(
     private suspend fun prepareRequest(query: String): HttpStatement =
         httpClient.prepareGet(BASE_URL) {
             headers {
-                append(HttpHeaders.Authorization, TOKEN)
+                append(HttpHeaders.Authorization, "Bearer $MASTODON_TOKEN")
             }
             this.url.parameters.append("q", query)
         }
