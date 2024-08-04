@@ -87,6 +87,7 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.material3.windowsizeclass.multiplatform)
+            implementation(libs.compose.navigation)
 
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)

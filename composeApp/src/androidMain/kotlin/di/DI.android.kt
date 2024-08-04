@@ -1,7 +1,7 @@
 package di
 
 import com.noemi.podium.streamer.room.getDatabase
-import database.PayloadDatabase
+import database.PodiumDatabase
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -21,7 +21,7 @@ import util.TOKEN
 
 actual fun platformModule(): Module = module {
 
-    single<PayloadDatabase> { getDatabase(get()) }
+    single<PodiumDatabase> { getDatabase(get()) }
 }
 
 actual fun ktorModule(): Module = module {

@@ -1,6 +1,6 @@
 package di
 
-import database.PayloadDatabase
+import database.PodiumDatabase
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.darwin.Darwin
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -20,7 +20,7 @@ import util.BASE_URL
 import util.TOKEN
 
 actual fun platformModule(): Module = module {
-    single<PayloadDatabase> { getDatabase() }
+    single<PodiumDatabase> { getDatabase() }
 }
 
 actual fun ktorModule(): Module = module {

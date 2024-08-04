@@ -8,4 +8,7 @@
     <string name="label_no_internet_connection">Oops, there is no internet connection!</string>
     <string name="label_lazy_column_tag">Lazy column</string>
     <string name="label_search_text_tag">Search text tag</string>
+    <string name="label_favorites">Favorites</string>
+    <string name="label_streams">Streams</string>
+    <string name="label_favorite_stream">Stream added to favorites</string>
 </resources>

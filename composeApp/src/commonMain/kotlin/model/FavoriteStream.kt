@@ -2,16 +2,13 @@ package model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import database.PayloadAccountConverter
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import util.STREAM_TABLE
+import util.FAVORITE_TABLE
 
 @Serializable
-@Entity(tableName = STREAM_TABLE)
-data class PayloadData(
-
+@Entity(tableName = FAVORITE_TABLE)
+data class FavoriteStream(
     @PrimaryKey
     @SerialName("id")
     val id: Long,
@@ -22,7 +19,9 @@ data class PayloadData(
     @SerialName("content")
     val content: String,
 
-    @SerialName("account")
-    @TypeConverters(PayloadAccountConverter::class)
-    val account: PayloadAccount
+    @SerialName("avatar")
+    val avatar: String,
+
+    @SerialName("username")
+    val username: String
 )

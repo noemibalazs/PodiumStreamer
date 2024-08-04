@@ -1,7 +1,7 @@
 package di
 
 import com.mirego.konnectivity.Konnectivity
-import database.PayloadDatabase
+import database.PodiumDatabase
 import io.ktor.client.HttpClient
 import kotlinx.serialization.json.Json
 import network.KTorDataSource
@@ -10,11 +10,12 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import repository.PayloadRepository
 import repository.PayloadRepositoryImpl
-import viewmodel.PayloadViewModel
+import viewmodel.FavoriteViewModel
+import viewmodel.StreamerViewModel
 
 expect fun platformModule(): Module
 
-expect fun ktorModule():Module
+expect fun ktorModule(): Module
 
 fun appModule() = module {
 
@@ -25,11 +26,12 @@ fun appModule() = module {
     }
 
     single<PayloadRepository> {
-        val database: PayloadDatabase = get()
-        PayloadRepositoryImpl(database.getPayloadDao())
+        val database: PodiumDatabase = get()
+        PayloadRepositoryImpl(streamerDAO = database.getStreamerDao(), favoriteDAO = database.getFavoriteDao())
     }
 
     single { Konnectivity() }
 
-    factory { PayloadViewModel(get(), get(), get()) }
+    factory { StreamerViewModel(get(), get(), get()) }
+    factory { FavoriteViewModel(get(), get()) }
 }

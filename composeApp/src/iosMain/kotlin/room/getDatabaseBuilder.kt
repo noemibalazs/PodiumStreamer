@@ -2,20 +2,20 @@ package room
 
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import database.PayloadDatabase
+import database.PodiumDatabase
 import platform.Foundation.NSHomeDirectory
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import database.instantiateImpl
-import util.PAYLOAD_DB
+import util.PODIUM_DB
 
-fun getDatabaseBuilder(): RoomDatabase.Builder<PayloadDatabase> {
-    val path = "${NSHomeDirectory()}/$PAYLOAD_DB"
-    return Room.databaseBuilder<PayloadDatabase>(
+fun getDatabaseBuilder(): RoomDatabase.Builder<PodiumDatabase> {
+    val path = "${NSHomeDirectory()}/${PODIUM_DB}"
+    return Room.databaseBuilder<PodiumDatabase>(
         name = path,
-        factory = { PayloadDatabase::class.instantiateImpl() }
+        factory = { PodiumDatabase::class.instantiateImpl() }
     ).setDriver(BundledSQLiteDriver())
 }
 
-fun getDatabase(): PayloadDatabase {
+fun getDatabase(): PodiumDatabase {
     return getDatabaseBuilder().build()
 }

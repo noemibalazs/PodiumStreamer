@@ -1,16 +1,22 @@
 package repository
 
-import database.PayloadDAO
+import database.FavoriteDAO
+import database.StreamerDAO
 import kotlinx.coroutines.flow.Flow
+import model.FavoriteStream
 import model.PayloadData
 
-class PayloadRepositoryImpl(private val payloadDAO: PayloadDAO) : PayloadRepository {
+class PayloadRepositoryImpl(private val streamerDAO: StreamerDAO, private val favoriteDAO: FavoriteDAO) : PayloadRepository {
 
-    override suspend fun clearDataBase() = payloadDAO.deleteAll()
+    override suspend fun saveStream(stream: PayloadData) = streamerDAO.insertStream(stream)
 
-    override suspend fun deletePayloadData(id: Long) = payloadDAO.deletePayload(id)
+    override fun observeStreams(): Flow<List<PayloadData>> = streamerDAO.observeStreams()
 
-    override fun observePayloads(): Flow<List<PayloadData>> = payloadDAO.observePayloads()
+    override suspend fun deleteStream(id: Long) = streamerDAO.deleteStream(id)
 
-    override suspend fun savePayload(payloadData: PayloadData) = payloadDAO.insertPayload(payloadData)
+    override suspend fun nukeStreams() = streamerDAO.deleteAll()
+
+    override suspend fun saveFavoriteStream(stream: FavoriteStream) = favoriteDAO.insertFavoriteStream(stream)
+
+    override fun observeFavoriteStreams(): Flow<List<FavoriteStream>> = favoriteDAO.observeFavoriteStreams()
 }
