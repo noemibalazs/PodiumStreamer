@@ -15,13 +15,13 @@ import kotlinx.coroutines.launch
 import model.Event
 import model.EventType
 import model.PayloadData
-import network.KTorDataSource
+import service.PayloadService
 import repository.PayloadRepository
 import util.toFavoriteStream
 
 class StreamerViewModel(
     konnectivity: Konnectivity,
-    private val ktorDataSource: KTorDataSource,
+    private val service: PayloadService,
     private val repository: PayloadRepository
 ) : BaseViewModel<PayloadData>(konnectivity) {
 
@@ -55,7 +55,7 @@ class StreamerViewModel(
 
             repository.nukeStreams()
 
-            ktorDataSource.observePayloads(query)
+            service.observePayloads(query)
                 .catch {
                     _errorState.emit(it.message ?: "Error while fetching events")
                     _loadingState.emit(false)
@@ -71,7 +71,7 @@ class StreamerViewModel(
         viewModelScope.launch {
             _errorState.emit("")
 
-            ktorDataSource.observePayloads(searchTerm)
+            service.observePayloads(searchTerm)
                 .catch {
                     _errorState.emit(it.message ?: "Error while fetching events")
                 }

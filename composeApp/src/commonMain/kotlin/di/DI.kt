@@ -4,8 +4,8 @@ import com.mirego.konnectivity.Konnectivity
 import database.PodiumDatabase
 import io.ktor.client.HttpClient
 import kotlinx.serialization.json.Json
-import network.KTorDataSource
-import network.KTorDataSourceImpl
+import service.PayloadService
+import service.PayloadServiceImpl
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import repository.PayloadRepository
@@ -15,14 +15,14 @@ import viewmodel.StreamerViewModel
 
 expect fun platformModule(): Module
 
-expect fun ktorModule(): Module
+expect fun serviceModule(): Module
 
 fun appModule() = module {
 
-    single<KTorDataSource> {
+    single<PayloadService> {
         val client: HttpClient = get()
         val json: Json = get()
-        KTorDataSourceImpl(client, json)
+        PayloadServiceImpl(client, json)
     }
 
     single<PayloadRepository> {

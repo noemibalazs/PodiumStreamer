@@ -24,7 +24,7 @@ actual fun platformModule(): Module = module {
     single<PodiumDatabase> { getDatabase(get()) }
 }
 
-actual fun ktorModule(): Module = module {
+actual fun serviceModule(): Module = module {
     single {
         Json {
             prettyPrint = true

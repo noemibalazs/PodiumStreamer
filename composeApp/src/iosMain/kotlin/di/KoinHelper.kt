@@ -14,7 +14,7 @@ fun initKoin() {
             )
             modules(
                 platformModule(),
-                ktorModule(),
+                serviceModule(),
                 appModule()
             )
         }

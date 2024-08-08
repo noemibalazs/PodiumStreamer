@@ -1,4 +1,4 @@
-package network
+package service
 
 import com.noemi.podium.streamer.BuildKonfig.MASTODON_TOKEN
 import io.ktor.client.HttpClient
@@ -24,10 +24,10 @@ import model.PayloadData
 import model.toEventType
 import util.BASE_URL
 
-class KTorDataSourceImpl(
+class PayloadServiceImpl(
     private val httpClient: HttpClient,
     private val json: Json
-) : KTorDataSource {
+) : PayloadService {
 
     override fun observePayloads(query: String, reconnectDelayMillis: Long): Flow<Event> = flow {
         coroutineScope {
