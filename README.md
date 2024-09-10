@@ -17,16 +17,17 @@ Idea:
 
 Libraries:
 
-1. Koin DI 
-2. Jetpack Compose 
-3. Coroutines 
-4. Flow 
-5. Room 
-6. Ktor
-7. Navigation
-8. Codefeline
-9. MVVM architecture 
-10. Material Design 3
+1. KMM
+2. Koin DI 
+3. Jetpack Compose 
+4. Coroutines 
+5. Flow 
+6. Room 
+7. Ktor
+8. Navigation
+9. Codefeline
+10. MVVM architecture 
+11. Material Design 3
 
 Screenshots:
 ![nadroid](https://github.com/user-attachments/assets/08fca06c-6d79-4597-82bb-e5a767b764a3)
