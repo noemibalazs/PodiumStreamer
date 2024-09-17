@@ -22,7 +22,7 @@ import model.Event
 import model.EventType
 import model.PayloadData
 import model.toEventType
-import util.BASE_URL
+import util.Constants.BASE_URL
 
 class PayloadServiceImpl(
     private val httpClient: HttpClient,

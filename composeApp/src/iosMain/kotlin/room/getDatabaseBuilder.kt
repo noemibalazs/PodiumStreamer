@@ -6,7 +6,7 @@ import database.PodiumDatabase
 import platform.Foundation.NSHomeDirectory
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import database.instantiateImpl
-import util.PODIUM_DB
+import util.Constants.PODIUM_DB
 
 fun getDatabaseBuilder(): RoomDatabase.Builder<PodiumDatabase> {
     val path = "${NSHomeDirectory()}/${PODIUM_DB}"

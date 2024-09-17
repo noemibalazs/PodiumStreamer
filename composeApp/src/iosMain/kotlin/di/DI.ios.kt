@@ -17,7 +17,7 @@ import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import room.getDatabase
-import util.BASE_URL
+import util.Constants.BASE_URL
 
 actual fun platformModule(): Module = module {
     single<PodiumDatabase> { getDatabase() }

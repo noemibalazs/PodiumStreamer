@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import model.FavoriteStream
-import util.FAVORITE_TABLE
+import util.Constants.FAVORITE_TABLE
 
 @Dao
 interface FavoriteDAO {

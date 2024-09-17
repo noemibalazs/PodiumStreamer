@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import util.FAVORITE_TABLE
+import util.Constants.FAVORITE_TABLE
 
 @Serializable
 @Entity(tableName = FAVORITE_TABLE)

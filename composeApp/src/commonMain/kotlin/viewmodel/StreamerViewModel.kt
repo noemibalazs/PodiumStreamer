@@ -36,7 +36,11 @@ class StreamerViewModel(
 
     var searchTerm by mutableStateOf("")
 
-    fun publishPayloads() {
+    init {
+        publishPayloads()
+    }
+
+    private fun publishPayloads() {
         viewModelScope.launch {
             repository.observeStreams().collect { payloads ->
                 val sortedPayload = payloads.sortedByDescending { it.id }

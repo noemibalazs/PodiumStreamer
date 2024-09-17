@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import database.PodiumDatabase
-import util.PODIUM_DB
+import util.Constants.PODIUM_DB
 
 fun getDatabaseBuilder(context: Context): RoomDatabase.Builder<PodiumDatabase> {
     val appContext = context.applicationContext

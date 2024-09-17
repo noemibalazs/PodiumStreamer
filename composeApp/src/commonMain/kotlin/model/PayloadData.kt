@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import database.PayloadAccountConverter
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import util.STREAM_TABLE
+import util.Constants.STREAM_TABLE
 
 @Serializable
 @Entity(tableName = STREAM_TABLE)

@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import model.PayloadData
-import util.STREAM_TABLE
+import util.Constants.STREAM_TABLE
 
 @Dao
 interface StreamerDAO {
