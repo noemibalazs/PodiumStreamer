@@ -26,11 +26,7 @@ class FavoriteViewModel(
     private var _errorState = MutableStateFlow("")
     override val errorState = _errorState.asStateFlow()
 
-    init {
-        publishFavoriteStreams()
-    }
-
-    private fun publishFavoriteStreams() {
+    fun publishFavoriteStreams() {
         viewModelScope.launch {
             repository.observeFavoriteStreams()
                 .onStart { _loadingState.emit(true) }
