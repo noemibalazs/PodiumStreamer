@@ -85,10 +85,8 @@ fun StreamerScreen(snackBarHostState: SnackbarHostState, modifier: Modifier = Mo
 
     LaunchedEffect(true) {
         lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-            launch {
-                viewModel.monitorNetworkState(scope)
-                viewModel.publishPayloads()
-            }
+            viewModel.monitorNetworkState(scope)
+            viewModel.publishPayloads()
         }
     }
 
