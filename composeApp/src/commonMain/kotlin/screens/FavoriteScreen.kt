@@ -66,7 +66,6 @@ fun FavoriteScreen(snackBarHostState: SnackbarHostState, modifier: Modifier = Mo
     LaunchedEffect(true) {
         lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
             viewModel.monitorNetworkState(scope)
-            viewModel.publishFavoriteStreams()
         }
     }
 

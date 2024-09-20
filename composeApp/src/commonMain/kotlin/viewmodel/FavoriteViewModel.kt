@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import model.FavoriteStream
 import repository.PayloadRepository
@@ -26,15 +26,20 @@ class FavoriteViewModel(
     private var _errorState = MutableStateFlow("")
     override val errorState = _errorState.asStateFlow()
 
-    fun publishFavoriteStreams() {
+    init {
+        publishFavoriteStreams()
+    }
+
+    private fun publishFavoriteStreams() {
         viewModelScope.launch {
+            _loadingState.emit(true)
+
             repository.observeFavoriteStreams()
-                .onStart { _loadingState.emit(true) }
                 .catch {
                     _errorState.emit(it.message ?: "Error while loading favorite payloads.")
                     _loadingState.emit(false)
                 }
-                .collect { payloads ->
+                .collectLatest { payloads ->
                     _loadingState.emit(false)
                     val sortedPayload = payloads.sortedByDescending { it.id }
                     _payloadsState.emit(sortedPayload).also {

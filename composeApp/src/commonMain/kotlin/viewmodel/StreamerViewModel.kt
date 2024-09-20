@@ -36,9 +36,13 @@ class StreamerViewModel(
 
     var searchTerm by mutableStateOf("")
 
-    fun publishPayloads() {
+    init {
+        publishPayloads()
+    }
+
+    private fun publishPayloads() {
         viewModelScope.launch {
-            repository.observeStreams().collect { payloads ->
+            repository.observeStreams().collectLatest { payloads ->
                 val sortedPayload = payloads.sortedByDescending { it.id }
                 _payloadsState.emit(sortedPayload).also {
                     println("Publish payloads - ${payloads.size}")
