@@ -22,6 +22,7 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,14 +45,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import model.PayloadData
-import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.mp.KoinPlatform.getKoin
 import podiumstreamer.composeapp.generated.resources.Res
@@ -73,21 +70,14 @@ import viewmodel.StreamerViewModel
 @Composable
 fun StreamerScreen(snackBarHostState: SnackbarHostState, modifier: Modifier = Modifier) {
 
-    val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
     val viewModel: StreamerViewModel = viewModel { getKoin().get() }
 
-    val payloadsState by viewModel.payloadsState.collectAsStateWithLifecycle()
-    val loadingState by viewModel.loadingState.collectAsStateWithLifecycle()
-    val errorMessage by viewModel.errorState.collectAsStateWithLifecycle()
-    val networkState by viewModel.networkState.collectAsStateWithLifecycle()
+    val payloadsState by viewModel.payloadsState.collectAsState()
+    val loadingState by viewModel.loadingState.collectAsState()
+    val errorMessage by viewModel.errorState.collectAsState()
+    val networkState by viewModel.networkState.collectAsState()
 
     val scope = rememberCoroutineScope()
-
-    LaunchedEffect(true) {
-        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-            viewModel.monitorNetworkState(scope)
-        }
-    }
 
     Column(modifier = modifier.fillMaxSize()) {
 

@@ -95,7 +95,6 @@ kotlin {
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
 
-            api(libs.precompose)
             api(libs.mirego.connectivity)
 
             api(libs.koin.core)
@@ -173,6 +172,8 @@ android {
 
     dependencies {
         debugImplementation(compose.uiTooling)
+        add("kspAndroid", libs.room.compiler)
+        add("kspCommonMainMetadata", libs.room.compiler)
     }
 
     composeOptions {
@@ -182,11 +183,6 @@ android {
 
 room {
     schemaDirectory("$projectDir/schemas")
-}
-
-dependencies {
-    add("kspAndroid", libs.room.compiler)
-    add("kspCommonMainMetadata", libs.room.compiler)
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().configureEach {

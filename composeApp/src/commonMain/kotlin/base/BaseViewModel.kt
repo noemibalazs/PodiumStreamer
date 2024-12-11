@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mirego.konnectivity.Konnectivity
 import com.mirego.konnectivity.NetworkState
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,21 +20,24 @@ abstract class BaseViewModel<T>(private val konnectivity: Konnectivity) : ViewMo
     abstract val loadingState: StateFlow<Boolean>
     abstract val errorState: StateFlow<String>
 
-    fun monitorNetworkState(scope: CoroutineScope) {
+    init {
+        monitorNetworkState()
+    }
+
+    private fun monitorNetworkState() {
         konnectivity.networkState
             .onEach { networkState ->
                 when (networkState) {
-                    NetworkState.Unreachable -> onNetworkStateChanged(false)
-                    else -> onNetworkStateChanged(true)
-                }.also {
-                    println("Network state is active: $networkState")
+                    is NetworkState.Reachable -> onNetworkStateChanged(true)
+                    else -> onNetworkStateChanged(false)
                 }
-            }.launchIn(scope)
+            }.launchIn(viewModelScope)
     }
 
     private fun onNetworkStateChanged(isActive: Boolean) {
         viewModelScope.launch {
             _networkState.emit(isActive)
+            println("Network state is active: $isActive")
         }
     }
 }

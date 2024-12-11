@@ -61,6 +61,16 @@ fun ConstraintLayoutScope.ProgressIndicator(reference: ConstrainedLayoutReferenc
 }
 
 @Composable
+fun ProgressIndicator() {
+    CircularProgressIndicator(
+        modifier = Modifier
+            .testTag(stringResource(Res.string.label_progress_indicator_tag)),
+        color = MaterialTheme.colorScheme.onPrimaryContainer,
+        strokeWidth = 3.dp
+    )
+}
+
+@Composable
 fun <T> ConstraintLayoutScope.PodiumLazyColumn(
     payloads: List<T>,
     lazyState: LazyListState,

@@ -36,7 +36,6 @@ import podiumstreamer.composeapp.generated.resources.Res
 import podiumstreamer.composeapp.generated.resources.label_icon_content_description
 import podiumstreamer.composeapp.generated.resources.label_podium_streamer
 import podiumstreamer.composeapp.generated.resources.logo
-import moe.tlaster.precompose.PreComposeApp
 import navigation.PodiumDestination
 import org.jetbrains.compose.resources.stringResource
 import screens.FavoriteScreen
@@ -48,44 +47,41 @@ import theme.StreamerTheme
 @Preview
 fun App() {
 
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackBarHostState = remember { SnackbarHostState() }
     val modifier: Modifier = Modifier
     val navController = rememberNavController()
 
     StreamerTheme {
 
-        PreComposeApp {
-
-            Scaffold(
-                topBar = {
-                    StreamerAppBar(
-                        title = stringResource(Res.string.label_podium_streamer),
-                        contentDescription = stringResource(Res.string.label_icon_content_description),
-                        modifier = modifier
-                    )
-                },
-                snackbarHost = {
-                    SnackbarHost(
-                        hostState = snackbarHostState
-                    )
-                },
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.primary)
-                    .windowInsetsPadding(WindowInsets.safeDrawing),
-                content = {
-                    Column {
-                        StreamerNavigationHost(navHostController = navController, snackBarHostState = snackbarHostState, modifier = modifier)
-                    }
-                },
-                bottomBar = {
-                    StreamerBottomNavigationBar(
-                        navController = navController,
-                        modifier = modifier
-                    )
+        Scaffold(
+            topBar = {
+                StreamerAppBar(
+                    title = stringResource(Res.string.label_podium_streamer),
+                    contentDescription = stringResource(Res.string.label_icon_content_description),
+                    modifier = modifier
+                )
+            },
+            snackbarHost = {
+                SnackbarHost(
+                    hostState = snackBarHostState
+                )
+            },
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.primary)
+                .windowInsetsPadding(WindowInsets.safeDrawing),
+            content = {
+                Column {
+                    StreamerNavigationHost(navHostController = navController, snackBarHostState = snackBarHostState, modifier = modifier)
                 }
-            )
-        }
+            },
+            bottomBar = {
+                StreamerBottomNavigationBar(
+                    navController = navController,
+                    modifier = modifier
+                )
+            }
+        )
     }
 }
 

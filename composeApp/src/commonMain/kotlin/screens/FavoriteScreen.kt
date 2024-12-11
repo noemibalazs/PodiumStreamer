@@ -2,6 +2,7 @@ package screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,19 +25,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.multiplatform.webview.web.LoadingState
 import com.multiplatform.webview.web.WebView
 import com.multiplatform.webview.web.rememberWebViewState
 import kotlinx.coroutines.launch
 import model.FavoriteStream
-import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.mp.KoinPlatform.getKoin
 import podiumstreamer.composeapp.generated.resources.Res
@@ -52,22 +49,14 @@ import viewmodel.FavoriteViewModel
 
 @Composable
 fun FavoriteScreen(snackBarHostState: SnackbarHostState, modifier: Modifier = Modifier) {
-
-    val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
     val viewModel: FavoriteViewModel = viewModel { getKoin().get() }
 
-    val payloadState by viewModel.payloadsState.collectAsStateWithLifecycle()
-    val loadingState by viewModel.loadingState.collectAsStateWithLifecycle()
-    val errorMessageState by viewModel.errorState.collectAsStateWithLifecycle()
-    val networkState by viewModel.networkState.collectAsStateWithLifecycle()
+    val payloadState by viewModel.payloadsState.collectAsState()
+    val loadingState by viewModel.loadingState.collectAsState()
+    val errorMessageState by viewModel.errorState.collectAsState()
+    val networkState by viewModel.networkState.collectAsState()
 
     val scope = rememberCoroutineScope()
-
-    LaunchedEffect(true) {
-        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-            viewModel.monitorNetworkState(scope)
-        }
-    }
 
     Column(modifier = modifier.fillMaxSize()) {
 
@@ -210,8 +199,15 @@ private fun StreamerLinkDialog(url: String, onDismissRequest: (Boolean) -> Unit,
 private fun StreamerWebView(url: String) {
     val webViewState = rememberWebViewState(url)
 
-    WebView(
-        state = webViewState,
-        modifier = Modifier.fillMaxSize()
-    )
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center) {
+
+        WebView(
+            state = webViewState,
+            modifier = Modifier.fillMaxSize()
+        )
+
+        if (webViewState.loadingState is LoadingState.Loading) ProgressIndicator()
+    }
 }
