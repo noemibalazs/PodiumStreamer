@@ -4,6 +4,7 @@ import com.mirego.konnectivity.Konnectivity
 import database.PodiumDatabase
 import io.ktor.client.HttpClient
 import kotlinx.serialization.json.Json
+import org.koin.compose.viewmodel.dsl.viewModel
 import service.PayloadService
 import service.PayloadServiceImpl
 import org.koin.core.module.Module
@@ -32,6 +33,6 @@ fun appModule() = module {
 
     single { Konnectivity() }
 
-    factory { StreamerViewModel(get(), get(), get()) }
-    factory { FavoriteViewModel(get(), get()) }
+    viewModel { StreamerViewModel(get(), get(), get()) }
+    viewModel { FavoriteViewModel(get(), get()) }
 }
