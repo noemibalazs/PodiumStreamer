@@ -25,13 +25,13 @@ class StreamerViewModel(
     private val repository: PayloadRepository
 ) : BaseViewModel<PayloadData>(konnectivity) {
 
-    private var _payloadsState = MutableStateFlow(emptyList<PayloadData>())
+    private val _payloadsState = MutableStateFlow(emptyList<PayloadData>())
     override val payloadsState: StateFlow<List<PayloadData>> = _payloadsState.asStateFlow()
 
-    private var _loadingState = MutableStateFlow(false)
+    private val _loadingState = MutableStateFlow(false)
     override val loadingState = _loadingState.asStateFlow()
 
-    private var _errorState = MutableStateFlow("")
+    private val _errorState = MutableStateFlow("")
     override val errorState = _errorState.asStateFlow()
 
     var searchTerm by mutableStateOf("")
