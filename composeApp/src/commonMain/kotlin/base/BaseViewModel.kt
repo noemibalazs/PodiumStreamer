@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<T>(private val konnectivity: Konnectivity) : ViewModel() {
 
-    private var _networkState = MutableStateFlow(false)
+    private val _networkState = MutableStateFlow(false)
     val networkState: StateFlow<Boolean> = _networkState.asStateFlow()
 
     abstract val payloadsState: StateFlow<List<T>>
